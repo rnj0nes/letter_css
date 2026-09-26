@@ -1,0 +1,51 @@
+<script>
+// Relocates Quarto's auto-generated title block (title/author/date) into
+// the start of the first .page div, so it renders on page 1 instead of
+// floating outside the page stack.
+document.addEventListener('DOMContentLoaded', function () {
+  var header = document.getElementById('title-block-header');
+  var firstPage = document.querySelector('.page');
+  if (header && firstPage) {
+    while (header.lastChild) {
+      firstPage.insertBefore(header.lastChild, firstPage.firstChild);
+    }
+    header.remove();
+  }
+});
+</script>
+
+<script>
+// Relocates Quarto/Pandoc endnotes into the .page div where each footnote
+// was actually referenced, so footnotes render on their originating page
+// instead of being collected at the end of the document.
+document.addEventListener('DOMContentLoaded', function () {
+  var footnotesSection = document.getElementById('footnotes');
+  if (!footnotesSection) return;
+
+  // Preserve original global numbering before notes are split across pages.
+  var allNotes = Array.prototype.slice.call(footnotesSection.querySelectorAll('li'));
+  allNotes.forEach(function (note, idx) {
+    note.setAttribute('value', idx + 1);
+  });
+
+  document.querySelectorAll('a.footnote-ref').forEach(function (ref) {
+    var page = ref.closest('.page');
+    if (!page) return;
+
+    var noteId = ref.getAttribute('href').slice(1);
+    var note = document.getElementById(noteId);
+    if (!note) return;
+
+    var container = page.querySelector('.page-footnotes');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'page-footnotes';
+      container.innerHTML = '<ol></ol>';
+      page.appendChild(container);
+    }
+    container.querySelector('ol').appendChild(note);
+  });
+
+  footnotesSection.remove();
+});
+</script>
