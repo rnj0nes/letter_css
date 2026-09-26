@@ -1,6 +1,6 @@
 # letter.css – Quarto HTML Stylesheet for US Letter Documents
 
-A professional CSS stylesheet for rendering Quarto Markdown documents as US Letter-sized (8.5" × 11") print-ready HTML with footnotes anchored to their originating pages, self-contained embedding, and zero external CDN dependencies.
+A CSS stylesheet for rendering Quarto Markdown documents as US Letter-sized (8.5" × 11") print-ready HTML with footnotes anchored to their originating pages, self-contained embedding, and zero external CDN dependencies.
 
 ## Features
 
