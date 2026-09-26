@@ -1146,11 +1146,35 @@ document.addEventListener('DOMContentLoaded', function () {
 // Quarto's native TOC only scans top-level headings, so headings nested
 // inside our .page divs are invisible to it and the sidebar renders empty.
 // Build the #TOC nav manually so letter.css's existing sidebar styles apply.
+//
+// Pandoc only promotes a `.page` div into a `<section>` (making it visible to
+// Quarto's native TOC) when the div's first block is its ONE AND ONLY
+// top-level heading. Pages with multiple h2s (like a page with several
+// sections) stay plain `<div class="page">`s that Pandoc's TOC scan never
+// sees. This means a document can end up with a native #TOC that silently
+// lists only some pages' headings depending on their shape. So we always
+// discard whatever (possibly incomplete) native TOC Pandoc emitted and
+// rebuild it ourselves from every `.page h2`/`.page h3` in the document.
 document.addEventListener('DOMContentLoaded', function () {
-  if (document.getElementById('TOC')) return;
+  var existingNav = document.getElementById('TOC');
+  var existingSidebar = existingNav ? existingNav.closest('#quarto-margin-sidebar') : null;
+  if (existingSidebar) {
+    existingSidebar.remove();
+  } else if (existingNav) {
+    existingNav.remove();
+  }
 
   var headings = Array.prototype.slice.call(document.querySelectorAll('.page h2, .page h3'));
   if (!headings.length) return;
+
+  // When a `.page` div gets promoted to a `<section>`, its sole heading loses
+  // its own id (the id moves to the section), so fall back to the nearest
+  // ancestor id in that case.
+  function headingId(heading) {
+    if (heading.id) return heading.id;
+    var withId = heading.closest('[id]');
+    return withId ? withId.id : '';
+  }
 
   var sidebar = document.createElement('div');
   sidebar.id = 'quarto-margin-sidebar';
@@ -1170,7 +1194,7 @@ document.addEventListener('DOMContentLoaded', function () {
   headings.forEach(function (heading) {
     var li = document.createElement('li');
     var a = document.createElement('a');
-    a.href = '#' + heading.id;
+    a.href = '#' + headingId(heading);
     a.textContent = heading.textContent;
     li.appendChild(a);
 
