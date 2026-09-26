@@ -10,6 +10,7 @@ format:
     toc: true
     toc-location: right
     include-after-body: "./page-footnotes.html"
+    html-math-method: mathjax
 ---
 
 ::: {.page}
@@ -28,4 +29,18 @@ ggplot(airquality, aes(Temp, Ozone)) +
   geom_point() + 
   geom_smooth(method = "loess")
 ```
+
+## Equation
+
+$$ n  = \frac{16}{ES^2} $$
+
+
+## Markdown table
+
+|Term|Meaning|
+|:---|:---|
+|0.707|$\approx 1/\sqrt{2}$|
+|0.842|$\approx z_{.8} = z_{1-\beta} \text{, when }\beta = .20$|
+|1.414|$\approx \sqrt{2}$|
+
 :::

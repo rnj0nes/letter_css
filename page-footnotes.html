@@ -49,3 +49,54 @@ document.addEventListener('DOMContentLoaded', function () {
   footnotesSection.remove();
 });
 </script>
+
+<script>
+// Quarto's native TOC only scans top-level headings, so headings nested
+// inside our .page divs are invisible to it and the sidebar renders empty.
+// Build the #TOC nav manually so letter.css's existing sidebar styles apply.
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.getElementById('TOC')) return;
+
+  var headings = Array.prototype.slice.call(document.querySelectorAll('.page h2, .page h3'));
+  if (!headings.length) return;
+
+  var sidebar = document.createElement('div');
+  sidebar.id = 'quarto-margin-sidebar';
+
+  var nav = document.createElement('nav');
+  nav.id = 'TOC';
+  nav.setAttribute('role', 'doc-toc');
+
+  var title = document.createElement('h2');
+  title.className = 'toc-title';
+  title.textContent = 'Table of contents';
+  nav.appendChild(title);
+
+  var rootList = document.createElement('ul');
+  var currentSublist = null;
+
+  headings.forEach(function (heading) {
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + heading.id;
+    a.textContent = heading.textContent;
+    li.appendChild(a);
+
+    if (heading.tagName === 'H2') {
+      rootList.appendChild(li);
+      currentSublist = null;
+    } else {
+      if (!currentSublist) {
+        if (!rootList.lastElementChild) return;
+        currentSublist = document.createElement('ul');
+        rootList.lastElementChild.appendChild(currentSublist);
+      }
+      currentSublist.appendChild(li);
+    }
+  });
+
+  nav.appendChild(rootList);
+  sidebar.appendChild(nav);
+  document.body.appendChild(sidebar);
+});
+</script>

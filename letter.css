@@ -426,6 +426,41 @@ div.sourceCode pre,
 }
 
 /* --------------------------------------------------------------------------
+   Markdown Tables
+   --------------------------------------------------------------------------
+   Approximates Quarto's default bootstrap ".table" look (light gray gridlines,
+   bold header row with a heavier bottom rule, and a caption styled like a
+   figure caption) using the same gray palette as the code blocks above.
+   -------------------------------------------------------------------------- */
+table {
+  border-collapse: collapse;
+  margin: 0.8em 0;
+  width: auto;
+}
+
+th,
+td {
+  border: 1px solid #e5e7eb;
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+thead th {
+  background-color: #f9fafb;
+  border-bottom: 2px solid #d1d5db;
+  font-weight: bold;
+}
+
+caption {
+  caption-side: bottom;
+  font-style: italic;
+  font-size: 9pt;
+  margin-top: 0.4em;
+  text-align: left;
+}
+
+/* --------------------------------------------------------------------------
    Automated Page Numbering Setup
    --------------------------------------------------------------------------
    Coordinates automatic page numbering for both on-screen viewing and printing.

@@ -28,6 +28,7 @@ format:
     toc: true
     toc-location: right
     include-after-body: "path/to/page-footnotes.html"
+    html-math-method: mathjax
 editor: source
 ---
 ```
@@ -39,6 +40,7 @@ editor: source
 - **`embed-resources: true`** — Self-contained HTML; all CSS, images, fonts inline
 - **`toc-location: right`** — Positions table of contents as a fixed sidebar on screen
 - **`include-after-body: "path/to/page-footnotes.html"`** — Required for footnote relocation script
+- **`html-math-method: mathjax`** — Enables MathJax rendering for LaTeX math (`$...$` inline, `$$...$$` display). Essential when `theme: none` is used; otherwise MathJax may not load
 
 ## Important Quirks & Workarounds
 
@@ -59,6 +61,7 @@ format:
     toc: true
     toc-location: right
     include-after-body: "path/to/page-footnotes.html"
+    html-math-method: mathjax
 ---
 
 ::: {.page}
@@ -90,6 +93,28 @@ Content here...
 ### 3. Footnotes Require Script
 
 Footnotes work through a companion script file (`page-footnotes.html`). Without it, footnotes collect at document end (off the page). The script must be included via `include-after-body` in YAML.
+
+### 4. Math Rendering Requires MathJax
+
+When using `theme: none`, Quarto does not automatically load MathJax. To render LaTeX math (`$n = \frac{16}{ES^2}$` inline or `$$ES = \frac{4}{\sqrt{n}}$$` display), add `html-math-method: mathjax` to the YAML frontmatter:
+
+```yaml
+format:
+  html:
+    theme: none
+    html-math-method: mathjax
+```
+
+Without this setting, LaTeX delimiters render as literal text. MathJax is embedded into the self-contained HTML file when `embed-resources: true`.
+
+### 5. Table of Contents Is Built Manually (h2/h3 Only)
+
+Pandoc's native `--toc` only scans headings that are direct children of the document body; headings nested inside a div — including `.page` — are invisible to it, so `toc: true` alone renders an empty sidebar. To work around this, `page-footnotes.html` includes a script that scans `.page h2, .page h3` after render and builds its own `#TOC` nav into `#quarto-margin-sidebar`, reusing the same selectors `letter.css` already styles.
+
+This means:
+- Only `##` (h2) and `###` (h3) headings appear in the TOC.
+- The document `h1` (the title, relocated per Quirk #1) is intentionally excluded — it's shown above the TOC, not inside it.
+- `####` (h4) headings and deeper are **not** picked up; extend the selector in `page-footnotes.html` if you need them.
 
 ## Custom Classes
 
