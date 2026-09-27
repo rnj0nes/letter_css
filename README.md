@@ -6,9 +6,10 @@ A CSS stylesheet for rendering Quarto Markdown documents as US Letter-sized (8.5
 
 - **US Letter Format** — 8.5" × 11" with 1.0" margins on all sides
 - **Footnotes on Originating Pages** — Endnotes automatically relocate to the page where they're referenced, not collected at document end
+- **References on Their Own Page** — Place an explicit `#refs` div inside a `.page` block to control exactly where the bibliography renders
 - **Print-to-PDF Optimized** — Tested with Chrome headless and standard browser print dialogs
 - **Self-Contained** — All fonts and resources embedded; no external CDN loads. Safe for AWS hosting.
-- **LaTeX-Style Text Sizing** — Inline span classes for `HUGE`, `large`, `small`, `tiny`, etc.
+- **LaTeX-Style Text Sizing** — Inline span and block div classes for `HUGE`, `large`, `small`, `tiny`, etc.
 - **Academic Formatting** — 11pt Arial body text, 0.5" abstract margins (1.5" total inset), 8pt footnotes and code
 - **Table of Contents** — Fixed-position sidebar TOC on screen; hidden during print
 - **Clean Screen Simulation** — Stacked Letter sheets on gray background for realistic preview
@@ -94,7 +95,22 @@ Content here...
 
 Footnotes work through a companion script file (`page-footnotes.html`). Without it, footnotes collect at document end (off the page). The script must be included via `include-after-body` in YAML.
 
-### 4. Math Rendering Requires MathJax
+### 4. Bibliography / References Placement
+
+Unlike footnotes, Pandoc's citeproc does **not** need a relocation script. Add `bibliography: your-file.bib` to the YAML, cite sources with `[@key]`, and place an explicit `#refs` div inside its own `.page` block wherever you want the reference list to render — citeproc fills that div in place instead of always appending it at the very end of the document:
+
+```markdown
+::: {.page}
+## References
+
+::: {#refs}
+:::
+:::
+```
+
+A single-heading `.page` like this gets promoted to `<section class="page">` (see Quirk #2), so it renders as its own Letter sheet and is automatically picked up by the manual TOC script (Quirk #5) since `## References` is an `h2` inside `.page`.
+
+### 5. Math Rendering Requires MathJax
 
 When using `theme: none`, Quarto does not automatically load MathJax. To render LaTeX math (`$n = \frac{16}{ES^2}$` inline or `$$ES = \frac{4}{\sqrt{n}}$$` display), add `html-math-method: mathjax` to the YAML frontmatter:
 
@@ -107,7 +123,7 @@ format:
 
 Without this setting, LaTeX delimiters render as literal text. MathJax is embedded into the self-contained HTML file when `embed-resources: true`.
 
-### 5. Table of Contents Is Built Manually (h2/h3 Only)
+### 6. Table of Contents Is Built Manually (h2/h3 Only)
 
 Pandoc's native `--toc` only scans headings that are direct children of the document body; headings nested inside a div — including `.page` — are invisible to it, so `toc: true` alone renders an empty sidebar. To work around this, `page-footnotes.html` includes a script that scans `.page h2, .page h3` after render and builds its own `#TOC` nav into `#quarto-margin-sidebar`, reusing the same selectors `letter.css` already styles.
 
@@ -120,7 +136,11 @@ This means:
 
 ### Text Sizing
 
-Use inline span syntax to apply LaTeX-style sizes:
+Available sizes: `.HUGE` (36pt), `.huge` (24pt), `.LARGE` (16pt), `.Large` (14pt), `.large` (12pt), `.small` (9pt), `.footnotesize` (8pt), `.tiny` (6pt).
+
+Each size class works two ways:
+
+**Inline span** — wrap a run of text (or an entire paragraph's text) in a bracketed span. The class lands on a `<span>`, which has no competing font-size rule, so it applies directly:
 
 ```markdown
 [HUGE text]{.HUGE}
@@ -129,7 +149,15 @@ Use inline span syntax to apply LaTeX-style sizes:
 [tiny text]{.tiny}
 ```
 
-Available sizes: `.HUGE` (36pt), `.huge` (24pt), `.LARGE` (16pt), `.Large` (14pt), `.large` (12pt), `.small` (9pt), `.footnotesize` (8pt), `.tiny` (6pt).
+**Block div** — wrap one or more paragraphs in a fenced div to size everything inside it:
+
+```markdown
+::: {.large}
+This whole paragraph, and any others in this div, render at 12pt.
+:::
+```
+
+> **CSS note:** the base rule `body, p { font-size: 11pt; }` targets `<p>` directly, which would otherwise override a size class inherited from a wrapping div. `letter.css` avoids this by pairing each class with an explicit descendant rule (e.g. `.large, .large p { font-size: 12pt; }`), so both the inline-span and block-div forms work.
 
 ### Other Utility Classes
 

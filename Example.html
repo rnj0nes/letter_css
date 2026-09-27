@@ -56,7 +56,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>/*!
@@ -819,14 +839,14 @@ font-size: 8pt;
 vertical-align: super;
 }
 
-.HUGE { font-size: 36pt; }
-.huge { font-size: 24pt; }
-.LARGE { font-size: 16pt; }
-.Large { font-size: 14pt; }
-.large { font-size: 12pt; }
-.small { font-size: 9pt; }
-.footnotesize { font-size: 8pt; }
-.tiny { font-size: 6pt; }
+.HUGE, .HUGE p { font-size: 36pt; }
+.huge, .huge p { font-size: 24pt; }
+.LARGE, .LARGE p { font-size: 16pt; }
+.Large, .Large p { font-size: 14pt; }
+.large, .large p { font-size: 12pt; }
+.small, .small p { font-size: 9pt; }
+.footnotesize, .footnotesize p { font-size: 8pt; }
+.tiny, .tiny p { font-size: 6pt; }
 
 pre,
 code,
@@ -1040,10 +1060,21 @@ margin: 0;
 <p class="date">2021-05-22</p>
 </header>
 
-
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#text-sizing" id="toc-text-sizing">Text Sizing</a>
+  <ul>
+  <li><a href="#inline-span-usage" id="toc-inline-span-usage">Inline span usage</a></li>
+  <li><a href="#block-div-usage" id="toc-block-div-usage">Block div usage</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references">References</a></li>
+  </ul>
+</nav>
 <div class="page">
 <h2 id="air-quality" class="anchored">Air Quality</h2>
-<p><a href="#fig-airquality" class="quarto-xref">Figure 1</a> further explores the impact of temperature on ozone level.</p>
+<p><a href="#fig-airquality" class="quarto-xref">Figure 1</a> further explores the impact of temperature on ozone level. The famously terse case report by <span class="citation" data-cites="upper1974">Upper (1974)</span> remains a benchmark for concise scientific writing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1089,6 +1120,45 @@ Figure 1: Temperature and ozone level.
 </tbody>
 </table>
 </div>
+<section id="text-sizing" class="page">
+<h2 class="anchored">Text Sizing</h2>
+<p>Each size class works both as an inline span wrapped around text and as a block div wrapping one or more paragraphs.</p>
+<h3 id="inline-span-usage" class="anchored">Inline span usage</h3>
+<p><span class="HUGE">HUGE</span> <span class="huge">huge</span> <span class="LARGE">LARGE</span> <span class="Large">Large</span> <span class="large">large</span> <span class="small">small</span> <span class="footnotesize">footnotesize</span> <span class="tiny">tiny</span></p>
+<h3 id="block-div-usage" class="anchored">Block div usage</h3>
+<div class="HUGE">
+<p>HUGE</p>
+</div>
+<div class="huge">
+<p>huge</p>
+</div>
+<div class="LARGE">
+<p>LARGE</p>
+</div>
+<div class="Large">
+<p>Large</p>
+</div>
+<div class="large">
+<p>large</p>
+</div>
+<div class="small">
+<p>small</p>
+</div>
+<div class="footnotesize">
+<p>footnotesize</p>
+</div>
+<div class="tiny">
+<p>tiny</p>
+</div>
+</section>
+<section id="references" class="page">
+<h2 class="anchored">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-upper1974" class="csl-entry" role="listitem">
+Upper, David. 1974. <span>“The Unsuccessful Self-Treatment of a Case of &quot;Writer’s Block&quot;.”</span> <em>Journal of Applied Behavior Analysis</em> 7 (3): 497. <a href="https://doi.org/10.1901/jaba.1974.7-497a">https://doi.org/10.1901/jaba.1974.7-497a</a>.
+</div>
+</div>
+</section>
 
 <script>
 // Relocates Quarto's auto-generated title block (title/author/date) into

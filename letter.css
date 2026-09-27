@@ -320,18 +320,24 @@ h4 {
 }
 
 /* --------------------------------------------------------------------------
-   Text Size Variants: LaTeX-style sizing for inline spans
+   Text Size Variants: LaTeX-style sizing for inline spans and block divs
    --------------------------------------------------------------------------
-   Usage: [text]{.HUGE}, [text]{.tiny}, etc.
+   Inline usage:  [text]{.HUGE}, [text]{.tiny}, etc. — class lands on a
+   <span>, which has no competing font-size rule, so it applies directly.
+
+   Block usage:   ::: {.HUGE}\n paragraph(s) \n::: — class lands on a
+   <div> wrapping <p> children. Since 'body, p { font-size: 11pt; }' targets
+   <p> directly, that rule beats inheritance from the parent div unless we
+   also add an explicit '.HUGE p' (etc.) descendant rule here.
    -------------------------------------------------------------------------- */
-.HUGE { font-size: 36pt; }
-.huge { font-size: 24pt; }
-.LARGE { font-size: 16pt; }
-.Large { font-size: 14pt; }
-.large { font-size: 12pt; }
-.small { font-size: 9pt; }
-.footnotesize { font-size: 8pt; }
-.tiny { font-size: 6pt; }
+.HUGE, .HUGE p { font-size: 36pt; }
+.huge, .huge p { font-size: 24pt; }
+.LARGE, .LARGE p { font-size: 16pt; }
+.Large, .Large p { font-size: 14pt; }
+.large, .large p { font-size: 12pt; }
+.small, .small p { font-size: 9pt; }
+.footnotesize, .footnotesize p { font-size: 8pt; }
+.tiny, .tiny p { font-size: 6pt; }
 
 /* --------------------------------------------------------------------------
    Terminal Inputs, Code Chunks & Preformatted Outputs

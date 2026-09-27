@@ -11,12 +11,15 @@ format:
     toc-location: right
     include-after-body: "./page-footnotes.html"
     html-math-method: mathjax
+bibliography: bibliography.bib
 ---
 
 ::: {.page}
 ## Air Quality
 
-@fig-airquality further explores the impact of temperature on ozone level.
+@fig-airquality further explores the impact of temperature on ozone level. The
+famously terse case report by @upper1974 remains a benchmark for concise
+scientific writing.
 
 ```{r}
 #| label: fig-airquality
@@ -43,4 +46,57 @@ $$ n  = \frac{16}{ES^2} $$
 |0.842|$\approx z_{.8} = z_{1-\beta} \text{, when }\beta = .20$|
 |1.414|$\approx \sqrt{2}$|
 
+:::
+
+:::: {.page}
+## Text Sizing
+
+Each size class works both as an inline span wrapped around text and as a
+block div wrapping one or more paragraphs.
+
+### Inline span usage
+
+[HUGE]{.HUGE} [huge]{.huge} [LARGE]{.LARGE} [Large]{.Large} [large]{.large} [small]{.small} [footnotesize]{.footnotesize} [tiny]{.tiny}
+
+### Block div usage
+
+::: {.HUGE}
+HUGE
+:::
+
+::: {.huge}
+huge
+:::
+
+::: {.LARGE}
+LARGE
+:::
+
+::: {.Large}
+Large
+:::
+
+::: {.large}
+large
+:::
+
+::: {.small}
+small
+:::
+
+::: {.footnotesize}
+footnotesize
+:::
+
+::: {.tiny}
+tiny
+:::
+
+::::
+
+::: {.page}
+## References
+
+::: {#refs}
+:::
 :::
