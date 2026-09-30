@@ -35,7 +35,7 @@
    Physical Paper Page Setup (Print & PDF Engines)
    --------------------------------------------------------------------------
    The @page rule talks directly to printing systems, browser print dialogs, 
-   and PDF converters (like Chrome headless or WeasyPrint).
+   and PDF converters (like Chrome headless).
    
    'size: 8.5in 11in' locks the output to 8.5 inches wide by 11 inches tall 
    (standard US Letter) in portrait orientation.

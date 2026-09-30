@@ -71,7 +71,7 @@ Body text starts here — no need to retype the title/author/date.
 :::
 ```
 
-**Requires JavaScript** (same as footnote relocation, below). If JS doesn't run — e.g. with non-JS PDF engines like WeasyPrint — the title block will render unstyled, outside the page stack.
+**Requires JavaScript** (same as footnote relocation, below). If JS doesn't run, the title block will render unstyled, outside the page stack.
 
 > **CSS gotcha:** Because the `#title-block-header` wrapper is *removed*, not just relocated, any styling for the title/author/date must target `.page > h1.title`, `.page > p.author`, and `.page > p.date` directly — selectors scoped under `#title-block-header` will silently never match once the script runs. Title renders bold, left-aligned, at normal body size (11pt, 1.2 line height); author/date render at 11pt with 1.2 line height and zero margin between them for tight spacing.
 
@@ -244,7 +244,6 @@ The floating sidebar TOC is for screen viewing only and is hidden when you print
 - ✅ Firefox
 - ✅ Safari
 - ✅ Print to PDF (all modern browsers)
-- ⚠️ WeasyPrint (command-line PDF generation) — page size, margins, and styling work, but WeasyPrint doesn't run JavaScript, so title relocation, per-page footnotes, and the TOC (all in `letter_css_scripts.html`) don't apply
 
 ## Limitations
 
