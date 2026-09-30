@@ -9,7 +9,7 @@ format:
     embed-resources: true
     toc: true
     toc-location: right
-    include-after-body: "./page-footnotes.html"
+    include-after-body: "./letter_css_scripts.html"
     html-math-method: mathjax
 bibliography: bibliography.bib
 ---

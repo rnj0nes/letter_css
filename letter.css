@@ -285,7 +285,7 @@ h4 {
 /* --------------------------------------------------------------------------
    Custom Container: .page-footnotes
    --------------------------------------------------------------------------
-   Populated by a script (see page-footnotes.html) that moves each endnote
+   Populated by a script (see letter_css_scripts.html) that moves each endnote
    into the .page div where it was referenced, so notes render on their
    originating page instead of collecting at the end of the document.
    -------------------------------------------------------------------------- */
@@ -596,10 +596,55 @@ caption {
   }
 }
 
+/* ==========================================================================
+   Table of Contents: Print-Only Copy
+   ==========================================================================
+   letter_css_scripts.html clones the sidebar's list into #print-toc, placed
+   below the title on page 1 (or in an explicit `::: {#print-toc}` div). It is
+   hidden on screen, where the sidebar already serves, and shown in print so
+   the PDF gets a TOC whose entries link to their headings.
+   -------------------------------------------------------------------------- */
+@media screen {
+  #print-toc {
+    display: none;
+  }
+}
+
+@media print {
+  #print-toc {
+    display: block;
+    margin: 1.2em 0 1.5em 0;
+  }
+
+  #print-toc .print-toc-title {
+    font-weight: bold;
+    margin: 0 0 0.4em 0;
+  }
+
+  #print-toc ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  #print-toc ul ul {
+    padding-left: 1.5em;
+  }
+
+  #print-toc li {
+    line-height: 1.3;
+  }
+
+  #print-toc a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Title Block Spacing Control
    --------------------------------------------------------------------------
-   page-footnotes.html relocates title/author/date into .page and removes
+   letter_css_scripts.html relocates title/author/date into .page and removes
    the #title-block-header wrapper, so these must be targeted by class.
    -------------------------------------------------------------------------- */
 .page > h1.title {
